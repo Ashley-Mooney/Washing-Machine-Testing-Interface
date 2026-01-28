@@ -1,312 +1,209 @@
-**WHAT IS THIS?**
+Interpreter Test Suite
+What This Is
+Source code for testing your interpreter implementation. These tests will actually test your code when compiled together.
 
-These are test programs for our interpreter project. They check if the code works right.
+Quick Start
+1. Get the Files
+Copy all these files into your project folder (same place as your memory.c, parser.c, etc.):
 
+text
+tests_memory.c
+tests_parser.c
+tests_executor.c
+tests_integration.c
+test_runner.c
+executor_basic.txt
+executor_incdec.txt
+executor_arith.txt
+executor_andxor.txt
+parser_test1.txt
+integration_basic.txt
+integration_print.txt
+How to Test Me.txt
+2. Compile the Tests
+Run these commands in your project folder:
 
+bash
+# Memory tests
+gcc -o tests_memory tests_memory.c memory.c errors.c
 
-**WHAT YOU NEED**
+# Parser tests
+gcc -o tests_parser tests_parser.c parser.c
 
-Your project should have these files already:
+# Executor tests
+gcc -o tests_executor tests_executor.c memory.c parser.c executor.c errors.c
 
+# Integration tests
+gcc -o tests_integration tests_integration.c memory.c parser.c executor.c errors.c
 
+# Test runner (main menu)
+gcc -o test_runner test_runner.c
+3. Run the Tests
+bash
+./test_runner
+What Gets Tested
+Memory Tests (tests_memory)
+Tests your memory.c implementation:
+
+Creating variables with var_allocate()
+
+Reading/writing values with var_read_at()/var_write_at()
+
+Freeing memory with var_free()
+
+Checking if variables exist
+
+Parser Tests (tests_parser)
+Tests your parser.c implementation:
+
+Reading commands from .txt files
+
+Recognizing Mal, Ass, Add, Sub, etc.
+
+Extracting variable names and numbers
+
+Executor Tests (tests_executor)
+Tests your executor.c implementation:
+
+Actually running commands
+
+Arithmetic operations (Add, Sub, Mul)
+
+Bitwise operations (And, Xor)
+
+Increment/Decrement (Inc, Dec)
+
+Integration Tests (tests_integration)
+Tests everything together:
+
+Complete programs end-to-end
+
+Multiple commands in sequence
+
+Memory cleanup
+
+How It Works
+When you compile tests_memory.c with your memory.c:
+
+The test code calls YOUR var_allocate(), var_get(), etc.
+
+It checks if YOUR implementation works correctly
+
+Same for all other test files
+
+Using the Test Runner
+Run ./test_runner for a menu:
+
+text
+MAIN MENU
+1. Run ALL tests
+2. Run MEMORY tests only
+3. Run PARSER tests only
+4. Run EXECUTOR tests only
+5. Run INTEGRATION tests only
+6. Show what each test does
+7. Get help
+8. Exit
+Testing Your Code
+Before Making Changes:
+bash
+./test_runner
+# Choose option 1 to run all tests
+# Make sure everything passes
+After Making Changes:
+bash
+# Run tests again
+./test_runner
+# Fix any failing tests
+If a Test Fails:
+Read the error message
+
+Look at which test file failed
+
+Check your implementation of that function
+
+Fix the bug
+
+Run tests again
+
+File Requirements
+Your project must have these files:
 
 memory.c and memory.h
 
-
-
 parser.c and parser.h
-
-
 
 executor.c and executor.h
 
-
-
 errors.c and errors.h
 
+All .txt test files must be in the same folder as the compiled programs.
 
+Common Issues
+"File not found" error
+Make sure all .txt files are in the same folder as your compiled .exe files.
 
-QUICK START (EASIEST WAY)
+Compilation errors
+Check that:
 
+All .c and .h files are in the same folder
 
+Your function names match what the tests expect
 
-**1. COPY FILES**
+You're not missing any required files
 
-Copy ALL these files into your project folder (same place as your .c files):
+Tests pass but interpreter doesn't work
+The tests check specific cases. Your interpreter might have bugs in cases not covered by tests.
 
+Adding New Tests
+Add test code to the appropriate .c file
 
+Create new .txt test files if needed
 
-test\_runner.exe (START WITH THIS ONE)
+Recompile and run tests
 
+For Windows Users
+Use .exe extension:
 
+bash
+gcc -o tests_memory.exe tests_memory.c memory.c errors.c
+# etc...
+test_runner.exe
+For Linux/Mac Users
+Make sure files are executable:
 
-tests\_memory.exe
+bash
+chmod +x test_runner tests_memory tests_parser tests_executor tests_integration
+Understanding Test Output
+Exit code 0: All tests passed
 
+Exit code 1: Some tests failed
 
+Error messages show what went wrong
 
-tests\_parser.exe
+Each assert() that fails gives details
 
+Workflow
+Start: Run all tests (./test_runner → option 1)
 
+Make changes to your interpreter
 
-tests\_executor.exe
+Test: Run tests again
 
+Fix: Any failing tests
 
+Repeat until all tests pass
 
-tests\_integration.exe
+Need More Help?
+Read How to Test Me.txt for detailed testing methodology.
 
+Summary
+Copy test files to your project
 
+Compile tests with your code
 
-All the .txt files (executor\_.txt, parser\_test1.txt, integration\_.txt)
+Run ./test_runner
 
+Fix any failing tests
 
-
-**2. RUN TESTS**
-
-Double-click "test\_runner.exe" or type in command line:
-
-
-
-test\_runner.exe
-
-That's it! No need to compile anything.
-
-
-
-**USING THE TEST RUNNER**
-
-When you run test\_runner.exe, you'll see a menu:
-
-
-
-
-
-
-
-MAIN MENU
-
-1\. Run ALL tests
-
-2\. Run MEMORY tests
-
-3\. Run PARSER tests
-
-4\. Run EXECUTOR tests
-
-5\. Run INTEGRATION tests
-
-6\. Show test descriptions
-
-7\. Get help
-
-8\. Exit
-
-
-
-Type a number (1-8) and press Enter.
-
-
-
-**WHAT EACH TEST DOES**
-
-
-
-MEMORY TESTS - Checks if variables are created, stored, and freed correctly
-
-
-
-PARSER TESTS - Checks if program files are read correctly
-
-
-
-EXECUTOR TESTS - Checks if commands (Mal, Ass, Add, etc.) work right
-
-
-
-INTEGRATION TESTS - Checks if whole programs work end-to-end
-
-
-
-**RUNNING INDIVIDUAL TESTS**
-
-You can also run tests one at a time:
-
-
-
-tests\_memory.exe
-
-tests\_parser.exe
-
-tests\_executor.exe
-
-tests\_integration.exe
-
-
-
-**UNDERSTANDING RESULTS**
-
-If you see "Exit code: 0" - test passed
-
-
-
-If you see "Exit code: 1" - test failed
-
-
-
-Read the messages to see what went wrong
-
-
-
-**IF TESTS FAIL**
-
-Check the error messages
-
-
-
-Make sure all .txt files are in the same folder
-
-
-
-Check your interpreter code matches what the test expects
-
-
-
-**FOR WINDOWS USERS**
-
-Use .exe files as shown above
-
-
-
-Everything should just work
-
-
-
-**FOR LINUX/MAC USERS**
-
-You need to compile from source:
-
-
-
-text
-
-gcc -o tests\_memory tests\_memory.c memory.c errors.c
-
-gcc -o tests\_parser tests\_parser.c parser.c
-
-gcc -o tests\_executor tests\_executor.c memory.c parser.c executor.c errors.c
-
-gcc -o tests\_integration tests\_integration.c memory.c parser.c executor.c errors.c
-
-gcc -o test\_runner test\_runner.c
-
-Then run:
-
-
-
-text
-
-./test\_runner
-
-
-
-**SOURCE CODE FOLDER**
-
-If you want to see or change how tests work:
-
-
-
-Look in the "src" folder
-
-
-
-That has all the .c source files
-
-
-
-You can modify them and recompile
-
-
-
-**TROUBLESHOOTING**
-
-Problem: "File not found"
-
-
-
-Fix: Make sure all .txt files are in same folder as .exe files
-
-
-
-Problem: Tests fail but your code seems to work
-
-
-
-Fix: Check what the test expects vs what your code does
-
-
-
-Problem: Permission errors
-
-
-
-Fix: Try "Run as administrator" on Windows
-
-
-
-**WORKFLOW FOR TESTING**
-
-BEFORE making changes: Run all tests (option 1)
-
-
-
-MAKE your changes to memory.c, parser.c, or executor.c
-
-
-
-AFTER changes: Run tests again
-
-
-
-IF tests fail: Fix your code until tests pass
-
-
-
-**IMPORTANT**
-
-Keep all .exe and .txt files together in one folder
-
-
-
-Don't move .txt files to subfolders
-
-
-
-The test runner needs to find the .txt files
-
-
-
-NEED HELP?
-
-Read "How to Test Me.txt" for more details about testing.
-
-
-
-**SUMMARY**
-
-Copy all files to your project
-
-
-
-Run test\_runner.exe
-
-
-
-Choose option 1 to test everything
-
-
-
-Fix any problems until all tests pass
-
-
-
-No compilation needed - just run the .exe files!
-
+Your interpreter should now work correctly
